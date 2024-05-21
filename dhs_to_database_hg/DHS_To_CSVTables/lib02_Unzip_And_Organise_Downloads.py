@@ -142,6 +142,25 @@ def get_filecode(filename):
     return os.path.extsep.join(os.path.basename(filename).split(os.path.extsep)[:-1])
 
 
+def get_new_name(old_name):
+    match = re.search(r'\.([A-Z]{2})([A-Z]{2})\d+FL\.', old_name)  # TODO - Expects a flat (FL) file!
+    if match:
+        prefix = match.group(2)
+        if "RECORD1" in old_name:
+            return f"{prefix}_main.csv"
+        elif "FlatRecordSpec" in old_name:
+            return f"{prefix}_variable.csv"
+        elif "FlatValuesSpec" in old_name:
+            return f"{prefix}_recode.csv"
+        elif "RelationshipsSpec" in old_name:
+            return f"{prefix}_relationshipSpec.csv"
+        elif "HWREC" in old_name:
+            return f"{prefix}_hwrec.csv"
+        elif "FWRECORD" in old_name:
+            return f"{prefix}_fwrecord.csv"
+    return None
+
+
 @print_durations
 def run(downloads_file_or_folder, staging_folder, dhs_file_format, parse_dcfs=False, parse_data=False):
     try:
@@ -217,6 +236,35 @@ def run(downloads_file_or_folder, staging_folder, dhs_file_format, parse_dcfs=Fa
 
                 parse_dat_file(dat_file, spec_file, parsed_data_folder,
                                conversion_issue_warnings=conversion_issue_warnings)
+
+        # === Rename lengthy filenames to easily query in SQLite database
+        # Metadata
+        for old_fname in os.listdir(parsed_spec_folder):
+            new_fname = get_new_name(old_fname)
+            if new_fname:
+                try:
+                    os.rename(src=os.path.join(parsed_spec_folder, old_fname),
+                              dst=os.path.join(parsed_spec_folder, new_fname))
+                except FileNotFoundError:
+                    print(f"File '{old_fname}' not found.")
+                except Exception as e:
+                    print(f"Error renaming '{old_fname}' to '{new_fname}': {e}")
+            else:
+                print(f"No mapping found for '{old_fname}'")
+
+        # Tables
+        for old_fname in os.listdir(parsed_data_folder):
+            new_fname = get_new_name(old_fname)
+            if new_fname:
+                try:
+                    os.rename(src=os.path.join(parsed_data_folder, old_fname),
+                              dst=os.path.join(parsed_data_folder, new_fname))
+                except FileNotFoundError:
+                    print(f"File '{old_fname}' not found.")
+                except Exception as e:
+                    print(f"Error renaming '{old_fname}' to '{new_fname}': {e}")
+            else:
+                print(f"No mapping found for '{old_fname}'")
 
         is_conversion_success = True
 
