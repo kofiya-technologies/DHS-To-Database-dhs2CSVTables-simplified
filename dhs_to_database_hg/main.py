@@ -54,9 +54,9 @@ def run(survey_country, survey_year, dir_dhs_raw_zipped, dir_dhs_output, file_fo
 
 if __name__ == '__main__':
     # === Config
-    SURVEY_COUNTRY = 'ug'
-    SURVEY_YEAR = '2018_2019'
-    DIR_DHS_MANUAL_PROJECT = r'D:\DHS\MIS_Malaria\data\UG_2018_2019'
+    SURVEY_COUNTRY = 'et'
+    SURVEY_YEAR = '2016'
+    DIR_DHS_MANUAL_PROJECT = r'D:\DHS\FullDHSDatabase\test\ET_2016'
     DHS_FILE_FORMAT = 'flat'   # ATTENTION - Only FLAT file types are supported to perform first conversion!!!
 
     # === Start conversion
