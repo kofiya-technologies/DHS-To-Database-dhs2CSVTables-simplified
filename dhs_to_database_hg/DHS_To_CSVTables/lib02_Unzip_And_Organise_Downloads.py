@@ -143,9 +143,11 @@ def get_filecode(filename):
 
 
 def get_new_name(old_name):
-    match = re.search(r'\.([A-Z]{2})([A-Z]{2})\d+FL\.', old_name)  # TODO - Expects a flat (FL) file!
+    pattern = r'\.[A-Z]{2}([A-Z]{2,3})[\dA-Z]+FL\.'
+    match = re.search(pattern, old_name)  # TODO - Expects a flat (FL) file!
+
     if match:
-        prefix = match.group(2)
+        prefix = match.group(1)
         if "RECORD1" in old_name:
             return f"{prefix}_main.csv"
         elif "FlatRecordSpec" in old_name:
