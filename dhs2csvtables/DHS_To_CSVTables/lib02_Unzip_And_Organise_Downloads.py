@@ -13,9 +13,9 @@ import re
 import fnmatch
 import traceback
 
-from dhs2dbhg.utils.timer import pprint_elapsed_time
-from dhs2dbhg.DHS_To_CSVTables.cspro_parser.DCF_Parser import DCF_Parser
-from dhs2dbhg.DHS_To_CSVTables.cspro_parser.DAT_Parser import parse_dat_file
+from dhs2csvtables.utils.timer import pprint_elapsed_time
+from dhs2csvtables.DHS_To_CSVTables.cspro_parser.DCF_Parser import DCF_Parser
+from dhs2csvtables.DHS_To_CSVTables.cspro_parser.DAT_Parser import parse_dat_file
 
 
 DHS_CONVERSION_CODE_ERRORS = {

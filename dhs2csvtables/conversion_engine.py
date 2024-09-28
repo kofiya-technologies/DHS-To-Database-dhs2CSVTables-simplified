@@ -1,7 +1,7 @@
 import traceback
 
-from dhs2dbhg.utils.timer import pprint_elapsed_time
-from dhs2dbhg.DHS_To_CSVTables import lib02_Unzip_And_Organise_Downloads as dhs2csvtables
+from dhs2csvtables.utils.timer import pprint_elapsed_time
+from dhs2csvtables.DHS_To_CSVTables import lib02_Unzip_And_Organise_Downloads as dhs2csvtables
 
 
 @pprint_elapsed_time
