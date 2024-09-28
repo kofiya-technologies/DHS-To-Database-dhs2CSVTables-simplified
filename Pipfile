@@ -8,8 +8,6 @@ chardet = "*"
 pandas = "*"
 sqlalchemy = {extras = ["sqlite"] }
 werkzeug = "*"
-wheel = "*"
-twine = "*"
 
 [dev-packages]
 
