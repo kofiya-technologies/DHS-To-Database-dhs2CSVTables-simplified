@@ -13,10 +13,9 @@ import re
 import fnmatch
 import traceback
 
-from funcy import print_durations
-
-from dhs_to_database_hg.DHS_To_CSVTables.cspro_parser.DCF_Parser import DCF_Parser
-from dhs_to_database_hg.DHS_To_CSVTables.cspro_parser.DAT_Parser import parse_dat_file
+from dhs2dbhg.utils.timer import pprint_elapsed_time
+from dhs2dbhg.DHS_To_CSVTables.cspro_parser.DCF_Parser import DCF_Parser
+from dhs2dbhg.DHS_To_CSVTables.cspro_parser.DAT_Parser import parse_dat_file
 
 
 DHS_CONVERSION_CODE_ERRORS = {
@@ -26,7 +25,7 @@ DHS_CONVERSION_CODE_ERRORS = {
 }
 
 
-@print_durations
+@pprint_elapsed_time
 def unzip_and_sort(zip_path, survey_num, out_folder):
     """Extracts the root contents of the zipfile zip_path to a folder out_folder/survey_num, prepending
     'survey_num.' to each extracted filename"""
@@ -53,7 +52,7 @@ def unzip_and_sort(zip_path, survey_num, out_folder):
     return output_files
 
 
-@print_durations
+@pprint_elapsed_time
 def parse_download_spec(download_urls_file):
     """Parse the text file of download URLs provided by the DHS download manager to extract
     the downloaded filename and the numerical survey id it corresponds to, return dictionary
@@ -78,7 +77,7 @@ def parse_download_spec(download_urls_file):
         return None
 
 
-@print_durations
+@pprint_elapsed_time
 def organise_batch_downloaded(download_urls_list, staging_folder,
                               conversion_issue_warnings=None):
     
@@ -120,7 +119,7 @@ def organise_batch_downloaded(download_urls_list, staging_folder,
     return all_unzipped_files, conversion_issue_warnings
 
 
-@print_durations
+@pprint_elapsed_time
 def organise_manual_downloaded(downloaded_files_folder, staging_folder):
     all_files = [
         i for i in os.listdir(downloaded_files_folder) if os.path.isfile(os.path.join(downloaded_files_folder, i))
@@ -163,8 +162,8 @@ def get_new_name(old_name):
     return None
 
 
-@print_durations
-def run(downloads_file_or_folder, staging_folder, dhs_file_format, parse_dcfs=False, parse_data=False):
+@pprint_elapsed_time
+def run_dhs2db_lib02(downloads_file_or_folder, staging_folder, dhs_file_format, parse_dcfs=False, parse_data=False):
     try:
         conversion_issue_warnings = []
         conversion_issue_errors = []

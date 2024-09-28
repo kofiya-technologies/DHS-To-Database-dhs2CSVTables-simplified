@@ -4,10 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-chardet = "==3.0.4"
-pandas = "==1.1.4"
-sqlalchemy = "==1.3.22"
+chardet = "*"
+pandas = "*"
+sqlalchemy = {extras = ["sqlite"] }
 werkzeug = "*"
-funcy = "*"
+wheel = "*"
+twine = "*"
 
 [dev-packages]
+
+[requires]
+python_version = "3.8"
+python_full_version = "3.8.10"
