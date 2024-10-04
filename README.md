@@ -1,4 +1,4 @@
-# DHS-To-Database-dhs2CSVTables-simplified
+# DHS-To-Database-dhs2CSVTables-simplified (v0.2.0)
 
 This repository provides an easy-to-use Python wrapper around the original `DHS-To-Database` tool developed by [Harry Gibson](https://github.com/harry-gibson/DHS-To-Database). The goal of this tool is to simplify the conversion of raw DHS (Demographic and Health Surveys) data into a format suitable for database storage, specifically in CSVTables format.
 
