@@ -162,22 +162,26 @@ def get_new_name(old_name):
     return None
 
 
+def get_survey_info(dat_files):
+    filename_survey = os.path.basename(dat_files[0])
+    return filename_survey.split('.')[0]
+
+
 @pprint_elapsed_time
 def run_dhs2db_lib02(downloads_file_or_folder, staging_folder, dhs_file_format, parse_dcfs=False, parse_data=False):
     try:
         conversion_issue_warnings = []
         conversion_issue_errors = []
         is_conversion_success = False
+        survey_info = None
 
         if dhs_file_format != 'flat':
             conversion_issue_errors.extend([DHS_CONVERSION_CODE_ERRORS[0]])
             print("ERROR - LINE=ASSERT_FLAT - Invalid file format={}. Only FLAT file format is allowed for conversion. Sorry!".format(dhs_file_format))
 
-            is_conversion_success = False
+            return is_conversion_success, survey_info, conversion_issue_warnings, conversion_issue_errors
 
-            return is_conversion_success, conversion_issue_warnings, conversion_issue_errors
-
-        print("\nINFO [FIRST CONVERSION] - Converting raw (zipped) DHS raw data into CSV tables...")
+        print("\nINFO [FIRST CONVERSION] - Converting raw (zipped) DHS survey data into CSV relational tables...")
 
         # Conversion
         if os.path.isfile(downloads_file_or_folder):
@@ -197,17 +201,13 @@ def run_dhs2db_lib02(downloads_file_or_folder, staging_folder, dhs_file_format, 
             conversion_issue_errors.extend([DHS_CONVERSION_CODE_ERRORS[2]])
             # print("ERROR - LINE=dcf_files - Only FLAT file format is allowed for conversion. Sorry!")
 
-            is_conversion_success = False
-
-            return is_conversion_success, conversion_issue_warnings, conversion_issue_errors
+            return is_conversion_success, survey_info, conversion_issue_warnings, conversion_issue_errors
 
         if not dat_files:
             conversion_issue_errors.extend([DHS_CONVERSION_CODE_ERRORS[3]])
             # print("ERROR - LINE=dat_files - Only FLAT file format is allowed for conversion. Sorry!")
 
-            is_conversion_success = False
-
-            return is_conversion_success, conversion_issue_warnings, conversion_issue_errors
+            return is_conversion_success, survey_info, conversion_issue_warnings, conversion_issue_errors
 
         # Process
         parsed_spec_folder = os.path.join(staging_folder, "parsed_specs")
@@ -269,8 +269,11 @@ def run_dhs2db_lib02(downloads_file_or_folder, staging_folder, dhs_file_format, 
 
         is_conversion_success = True
 
-        return is_conversion_success, conversion_issue_warnings, conversion_issue_errors
+        # == Extract survey info
+        survey_info = get_survey_info(dat_files)
+
+        return is_conversion_success, survey_info, conversion_issue_warnings, conversion_issue_errors
     except Exception as err:
         print('ERROR - Failed during DHS-To-Database conversion process due to {}'.format(traceback.print_exc()))
 
-        return False, None, None
+        return False, None, None, None

@@ -3,10 +3,10 @@ from dhs2csvtables.conversion_engine import run_conversion_engine
 
 if __name__ == '__main__':
     # === Run conversion
-    dir_dhs_raw_data = r'D:\DHS\FullDHSDatabase\test\ET_2005'
+    dir_dhs_raw_data = r'D:\DHS\FullDHSDatabase\test\ET_2016'
     dhs_raw_data_file_format = 'flat'   # IMPORTANT - Only FLAT file types are supported to perform first conversion!!!
     survey_country = 'ethiopia'
-    survey_year = 2005
+    survey_year = 2016
 
     run_conversion_engine(
         dir_dhs_raw_zipped=dir_dhs_raw_data,

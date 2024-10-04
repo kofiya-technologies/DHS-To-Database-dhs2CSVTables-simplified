@@ -2,6 +2,7 @@ import traceback
 
 from dhs2csvtables.utils.timer import pprint_elapsed_time
 from dhs2csvtables.DHS_To_CSVTables import lib02_Unzip_And_Organise_Downloads as dhs2csvtables
+from dhs2csvtables.csv2sqlite import run_csv2sqlite
 
 
 @pprint_elapsed_time
@@ -49,13 +50,22 @@ def run_conversion_engine(dir_dhs_raw_zipped: str,
 
     try:
         # === Run the first conversion (from raw DHS data to CSVTables)
-        is_conversion_success, conversion_issue_warnings, conversion_issue_errors = dhs2csvtables.run_dhs2db_lib02(
+        is_conversion_success, survey_info, conversion_issue_warnings, conversion_issue_errors = dhs2csvtables.run_dhs2db_lib02(
             downloads_file_or_folder=dir_dhs_raw_zipped,
             staging_folder=dir_dhs_output,
             dhs_file_format=file_format_dhs_raw,
             parse_dcfs=True,
             parse_data=True
         )
+
+        # == Convert CSV relational tables to a SQLite database
+        if is_conversion_success:
+            run_csv2sqlite(
+                dir_input_dhs_csv_files=dir_dhs_output,
+                survey_info=survey_info
+            )
+        else:
+            print("WARNING - Skipped the [SECOND CONVERSION] since the [FIRST CONVERSION] didn't go well!")
     except Exception as err:
         print("ERROR - Something went wrong during conversion due to \n{}".format(traceback.print_exc()))
 

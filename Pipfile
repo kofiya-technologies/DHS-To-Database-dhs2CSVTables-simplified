@@ -5,9 +5,10 @@ name = "pypi"
 
 [packages]
 chardet = "*"
-pandas = "*"
+pandas = "==1.5.3"
 sqlalchemy = {extras = ["sqlite"] }
 werkzeug = "*"
+csvs-to-sqlite = "*"
 
 [dev-packages]
 
