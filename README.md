@@ -5,6 +5,8 @@ This repository provides an easy-to-use Python wrapper around the original `DHS-
 ## Features
 
 - **Convenient Wrapper**: We built a Python wrapper function to make it easier to run DHS data conversions without diving deep into the original library’s internals.
+- **CSV to SQLite Conversion** (New in v0.2.0): Now supports converting relational CSV tables to a SQLite database using the `csvs-to-sqlite` command-line tool. This allows seamless migration of DHS data into a more structured relational database format.
+
 
 ## Requirements
 
