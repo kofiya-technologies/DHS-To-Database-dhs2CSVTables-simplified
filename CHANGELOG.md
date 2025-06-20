@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.2.1] - 2025-06-20
+- [ADDED] Post-processing step to rename SQLite tables by removing invalid or unwanted characters (e.g., leading `.\\`) after CSV-to-SQLite conversion.
+
 ## [v0.2.0] - 2024-10-04
 ### Added
 - **CSV to SQLite Conversion**: Introduced a new feature to convert relational CSV tables generated from DHS raw data into a SQLite database.
